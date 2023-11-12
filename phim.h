@@ -13,7 +13,7 @@ private:
     int thoiluong;
     string ngonngu;
     string gioithieuphim;
-    int age;
+    string age;
     suatchieu* danhsachsuatchieu;
     int sosuatchieu;
 public:
@@ -30,7 +30,7 @@ public:
     int getthoiluong();
     string getngonngu();
     string getgioithieuphim();
-    int getage();
+    string getage();
     suatchieu* getdanhsachsuatchieu();
     int getsosuatchieu();
     void sethankhoichieu();

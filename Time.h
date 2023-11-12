@@ -1,6 +1,8 @@
 #pragma once
 #include<iostream>
+#include<string>
 #include<conio.h>
+#include<fstream>
 using namespace std;
 class Time
 {
@@ -34,4 +36,5 @@ public:
     int trungay(Time);
     bool operator>(Time);
     friend class suatchieu;
+    friend class admin;
 };

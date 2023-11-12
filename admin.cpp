@@ -69,24 +69,34 @@ bool admin::ktrafull(phong p)
 }
 void admin::nhapphim(const string name_file)
 {
+    ifstream i;
+    i.open(name_file);
+    string tmp;
+    int count = 1;
+    while (getline(i, tmp))
+    {
+        count++;
+    }
+    i.close();
+    ofstream o;
     phim p;
     cin >> p;
-    ofstream o;
     o.open(name_file, ios::app);
+    if (count != 1) o << endl;
     o << p.gettenphim() << endl;
     o << p.getgiave() << endl;
     o << p.getdaodien() << endl;
     o << p.gettheloai() << endl;
-    o << p.getkhoichieu();
-    o << p.gethankhoichieu();
+    o << p.getkhoichieu().getphut() << endl ;
+    o << p.getkhoichieu().getgio() << endl;
+    o << p.getkhoichieu().getngay() << endl;
+    o << p.getkhoichieu().getthang() << endl;
+    o << p.getkhoichieu().getnam() << endl;
     o << p.getthoiluong() << endl;
     o << p.getngonngu() << endl;
     o << p.getgioithieuphim() << endl;
     o << p.getage() << endl;
-    for (int i = 0; i < p.getsosuatchieu(); i++)
-    {
-        (*(p.getdanhsachsuatchieu() + i)).xuatgiochieu();
-    }
+    o.close();
 }
 void admin::setid(string s, phim& p)
 {
@@ -104,7 +114,12 @@ void admin::setdaodien(string s, phim& p)
 {
     p.daodien = s;
 }
-void admin::settheloai(string s, phim& p)
+void admin::setgiochieu(int a, phim& p) { p.khoichieu.setgio(a); }
+void admin::setphutchieu(int a, phim& p ) { p.khoichieu.setphut(a); }
+void admin::setngaychieu(int a, phim& p) { p.khoichieu.setngay(a); }
+void admin::setthangchieu(int a, phim& p) { p.khoichieu.setthang(a); }
+void admin::setnamchieu(int a, phim& p) { p.khoichieu.setnam(a); }
+void admin::settheloai(string s, phim&p)
 {
     p.theloai = s;
 }
@@ -163,7 +178,7 @@ void admin::setgioithieuphim(string s, phim& p)
 {
     p.gioithieuphim = s;
 }
-void admin::setage(int s, phim& p)
+void admin::setage(string s, phim& p)
 {
     p.age = s;
 }
@@ -303,8 +318,8 @@ void admin::datve()
     }
     cout << endl
         << "Nhap suat chieu ban muon xem : " << endl;
-    int tmpphut;
-    int tmpgio;
+    int tmpphut = 0 ;
+    int tmpgio = 0;
     string tmp2;
     getline(cin, tmp2);
     if ((int)tmp2[2] > 57 || (int)tmp2[2] < 48) {
@@ -332,8 +347,8 @@ void admin::datve()
     (*((tmpsc).phongchieu)).hienthighe();
     string tmpghe;
     getline(cin, tmpghe);
-    int tmpghe1;
-    int tmpghe2;
+    int tmpghe1= 0 ;
+    int tmpghe2 = 0;
     string tmpghestring;
     for (int i = 0; i < (tmpghe).length(); i++)
     {
@@ -405,7 +420,7 @@ void admin::quanlychieuphim()
     double tmp3;
     int tmpjj;
     tmpjj = 10;
-    bool tran;
+    bool tran = false ;
     while (kq >= 1)
     {
         // gan lai kq
@@ -481,7 +496,7 @@ void admin::quanlychieuphim()
                     l = tmpo + 1;
                     if (l == 8)
                     {
-                        tran == true;
+                        tran = true;
                     }
                 }
                 // so suat chieu 1 ngay
@@ -610,7 +625,15 @@ bool compareStrings(const  string& str1, const  string& str2) {
     }
     return  khac <= sai;
 }
-
+phim admin::getphimtuid(string tmp1) {
+    for (int i = 0; i < rapquanly.maychurap.sophim; i++)
+    {
+        if ((*(rapquanly.maychurap.danhsachphim + i)).id == tmp1) return (*(rapquanly.maychurap.danhsachphim + i));
+        
+    }
+    phim tmp43;
+    return tmp43;
+}
 phim admin::getphim(string tmp1)
 {
     for (int i = 0; i < rapquanly.maychurap.sophim; i++)
@@ -654,42 +677,153 @@ void admin::xoaphim(phim p)
         rapquanly.maychurap.sophim -= 1;
     }
 }
-void admin::themphim(int n)
-{
+int ConvertToInt(string s) {
+    int result = 0;
+    int multiply = 1;
 
-    if (rapquanly.maychurap.sophim == 0)
-    {
-        rapquanly.maychurap.danhsachphim = new phim[n];
-        for (int i = 0; i < n; i++)
-        {
-            cin >> *(rapquanly.maychurap.danhsachphim + i);
+    for (int i = s.length() - 1; i >= 0; --i) {
+        if (isdigit(s[i])) {
+            result += (s[i] - '0') * multiply;
+            multiply *= 10;
+        }
+        else {
+            return 0;
         }
     }
-    else
-    {
-        phim* tmp = new phim[n + rapquanly.maychurap.sophim];
-        for (int i = 0; i < rapquanly.maychurap.sophim; i++)
-        {
-            *(tmp + i) = *(rapquanly.maychurap.danhsachphim + i);
-        }
-        for (int i = rapquanly.maychurap.sophim; i < rapquanly.maychurap.sophim + n; i++)
-        {
-            cin >> *(tmp + i);
-        }
-        delete[] rapquanly.maychurap.danhsachphim;
-        rapquanly.maychurap.danhsachphim = new phim[rapquanly.maychurap.sophim + n];
-        for (int i = 0; i < rapquanly.maychurap.sophim + n; i++)
-        {
-            *(rapquanly.maychurap.danhsachphim + i) = *(tmp + i);
-        }
-        delete tmp;
-    }
-    rapquanly.maychurap.sophim += n;
+
+    return result;
 }
+string increaseString(string str) {
+    string str1;
+    str1 = "000";
+    if (str[2] == '9') {
+        if (str[1] == '9') {
+            (str1[0]) = (str[0]) + 1;
+            str1[1] = '0';
+            str1[2] = '0';
+        }
+        else {
+            (str1[0]) = (str[0]);
+            (str1[1]) = (str[1]) + 1;
+            str1[2] = '0';
+        }
+    }
+    else {
+        (str1[0]) = (str[0]);
+        (str1[1]) = (str[1]);
+        (str1[2]) = (str[2]) + 1;
+    } 
+    return str1;
+}
+void admin::themphim(string namefile)
+{
+    delete[] rapquanly.maychurap.danhsachphim;
+    rapquanly.maychurap.sophim = 0;
+    ifstream i;
+    i.open(namefile, ios::in);
+    if (!i.is_open()) return;
+    int tmpcount = 1;
+    string tmp;
+    while (getline(i,tmp) ){
+        tmpcount++;
+    }
+    i.close();
+    rapquanly.maychurap.danhsachphim = new phim[tmpcount];
+        string line;
+        int count = 1;
+        int countphim = 0;
+        i.open(namefile, ios::in);
+        if (!i.is_open()) return;
+        while (getline(i,line)){
+            switch (count % 13) {
+            case 0:         
+                setage(line, rapquanly.maychurap.danhsachphim[countphim]);
+                break;
+            case 1:
+                settenphim(line, rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 2:
+                setgiave(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 3:
+                setdaodien(line, rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 4:
+                settheloai(line, rapquanly.maychurap.danhsachphim[countphim]);
+                break;
+            case 5:                 
+                setgiochieu(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 6:                 
+                setphutchieu(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 7:                 
+                setngaychieu(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 8:                 
+                setthangchieu(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim]);
+                break;
+            case 9:
+                setnamchieu(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 10:
+                setthoiluong(ConvertToInt(line), rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 11:
+                setngonngu(line, rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            case 12:
+                setgioithieuphim(line, rapquanly.maychurap.danhsachphim[countphim ]);
+                break;
+            default:
+                break;
+   }
+          count++;
+          if ((count % 13) == 1) {
+              rapquanly.maychurap.danhsachphim[countphim].sethankhoichieu();
+              if (countphim == 0) { setid("000", rapquanly.maychurap.danhsachphim[countphim]); }
+              else {
+                  setid( increaseString(rapquanly.maychurap.danhsachphim[countphim-1].getid()), rapquanly.maychurap.danhsachphim[countphim]);
+              }
+              countphim++;
+          }
+        }
+        i.close();
+    
+   
+    rapquanly.maychurap.sophim += countphim;
+}
+
+void admin::xuatphim() {
+    for (int i = 0; i < rapquanly.maychurap.sophim; i++) {
+        cout << rapquanly.maychurap.danhsachphim[i];
+    }
+}
+
+void admin::nhapsuatchieu(const string name_file) {
+    ofstream o;
+    o.open(name_file, ios::trunc);
+    for (int i = 0; i < rapquanly.maychurap.sophim; i++) {
+        o << rapquanly.maychurap.danhsachphim[i].getid() << endl;
+        for (int j = 0; j < rapquanly.maychurap.danhsachphim[i].sosuatchieu; j++) {
+            o << rapquanly.maychurap.danhsachphim[i].danhsachsuatchieu[j].getthoigianchieu().getgio() << ":";
+            o << rapquanly.maychurap.danhsachphim[i].danhsachsuatchieu[j].getthoigianchieu().getphut() << " ";
+            o << rapquanly.maychurap.danhsachphim[i].danhsachsuatchieu[j].getthoigianchieu().getngay() << "/";
+            o << rapquanly.maychurap.danhsachphim[i].danhsachsuatchieu[j].getthoigianchieu().getthang() << "/";
+            o << rapquanly.maychurap.danhsachphim[i].danhsachsuatchieu[j].getthoigianchieu().getnam() << endl;
+        }
+    }
+
+    o.close();
+}
+
+
+
 void admin::themphim(phim sc)
 {
     if (rapquanly.maychurap.sophim == 0)
     {
+        delete[] rapquanly.maychurap.danhsachphim; 
         rapquanly.maychurap.danhsachphim = new phim[1];
         *(rapquanly.maychurap.danhsachphim + 0) = sc;
         setid("001", (*(rapquanly.maychurap.danhsachphim + 0)));
@@ -706,26 +840,14 @@ void admin::themphim(phim sc)
         delete[] rapquanly.maychurap.danhsachphim;
         rapquanly.maychurap.sophim++;
         rapquanly.maychurap.danhsachphim = new phim[rapquanly.maychurap.sophim];
-        int r;
+        int r = 0;
         for (int i = 0; i < rapquanly.maychurap.sophim; i++)
         {
-            *(rapquanly.maychurap.danhsachphim + r) = *(tmp + r);
-            r = i;
+            *(rapquanly.maychurap.danhsachphim + i) = *(tmp + i);
         }
-        if (((*(rapquanly.maychurap.danhsachphim + r)).id)[2] == 9) {
-            if (((*(rapquanly.maychurap.danhsachphim + r)).id)[1] == 9) {
-                ((*(rapquanly.maychurap.danhsachphim + r)).id)[0] = (int)((*(rapquanly.maychurap.danhsachphim + r)).id)[0] + 1;
-                ((*(rapquanly.maychurap.danhsachphim + r)).id)[1] = '0';
-                ((*(rapquanly.maychurap.danhsachphim + r)).id)[2] = '0';
-            }
-            else {
-                (*(rapquanly.maychurap.danhsachphim + r).id)[1] = (int)(*(rapquanly.maychurap.danhsachphim + r).id)[1] + 1;
-                (*(rapquanly.maychurap.danhsachphim + r).id)[2] = '0';
-            }
-        }
-        else {
-            (*(rapquanly.maychurap.danhsachphim + r).id)[2] = (int)(*(rapquanly.maychurap.danhsachphim + r).id)[2] + 1;
-        }
+        r = rapquanly.maychurap.sophim - 1;
+        setid(increaseString((*(rapquanly.maychurap.danhsachphim + (r - 1))).getid()), (*(rapquanly.maychurap.danhsachphim + r)));
+
         delete[] tmp;
 
     }

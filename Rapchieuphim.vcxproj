@@ -149,6 +149,10 @@
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="ve.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="DanhSachPhim.txt" />
+    <Text Include="DanhSachSuatChieu.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

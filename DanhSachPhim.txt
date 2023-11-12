@@ -1,0 +1,52 @@
+Dat rung phuong dong
+18000
+Tran Thanh
+Hanh dong
+12
+12
+15
+4
+2023
+120
+tieng viet
+phim hay
+18
+Dat rung Phuong Tay
+20000
+Bang
+Tinh cam
+10
+10
+13
+5
+2023
+130
+Tieng ANh
+Phim Do
+16
+Doraemon
+60000
+Tran Thanh
+Kinh Di
+15
+20
+10
+12
+2020
+120
+Tieng Nhat
+Phim ke ve cau be bi thieu nang
+18+
+PenHouse
+40000
+Park Kim To
+Tinh Cam
+0
+20
+13
+4
+2021
+120
+Tieng han
+Phim Drama Kinh
+13+

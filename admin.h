@@ -1,6 +1,5 @@
 #pragma once
 #include "rap.h"
-#include<fstream>
 class admin
 {
 private:
@@ -16,6 +15,11 @@ public:
     void setphim(phim&);
     void settenphim(string, phim&);
     void setgiave(int, phim&);
+    void setgiochieu(int, phim&);
+    void setphutchieu(int, phim&);
+    void setngaychieu(int, phim&);
+    void setthangchieu(int, phim&);
+    void setnamchieu(int, phim&);
     void setdaodien(string, phim&);
     void settheloai(string, phim&);
     void setthoiluong(int, phim&);
@@ -23,15 +27,18 @@ public:
     void setgioithieuphim(string, phim&);
     void sethankhoichieu(phim&);
     void setsosuatchieu(int, phim&);
-    void setage(int, phim&);
+    void setage(string, phim&);
     void setkhoichieu(Time, phim&);
+    phim getphimtuid(string);
     void themsuatchieu(suatchieu&, phim&);
     void dangkitaikhoan();
     suatchieu getsuatchieu(int, int, Time);
     string getusername();
     string getpassword();
+    friend string increasingString(string);
     void swap(Time&, Time&);
     friend bool compareStrings(const string& str1, const string& str2);
+    friend int ConvertToInt(string);
     void xacnhandatve(int, int, phong&);
     bool ktrafull(phong);
     void nhapphim(const string name_file);
@@ -43,8 +50,10 @@ public:
     void datve();
     void chieuphim();
     void themphim(phim);
-    void themphim(int);
+    void themphim(string);
     void xoaphim(phim);
     phim getphim(string);
     void phimchieutrongngay(Time);
+    void xuatphim();
+    void nhapsuatchieu(const string name_file);
 };

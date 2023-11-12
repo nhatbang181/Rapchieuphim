@@ -8,8 +8,8 @@ suatchieu::suatchieu()
 void suatchieu::xuatgiochieu()
 {
 
-    cout << thoigianchieu.gio << ":";
-    cout << thoigianchieu.phut << " ";
+    cout << thoigianchieu.gio << endl ;
+    cout << thoigianchieu.phut << endl;
 }
 phong* suatchieu::getphongchieu()
 {

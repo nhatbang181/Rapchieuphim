@@ -24,23 +24,18 @@ void Time::setnam(int nam) { this->nam = nam; }
 istream& operator>>(istream& i, Time& d)
 {
     int* tmp = new int;
-    cout << "Nhap phut :";
-    i >> *tmp;
-    d.setphut(*tmp);
-    i.ignore();
-    cout << "Nhap gio :";
     i >> *tmp;
     d.setgio(*tmp);
     i.ignore();
-    cout << "Nhap ngay :";
+    i >> *tmp;
+    i.ignore();
+    d.setphut(*tmp);
     i >> *tmp;
     d.setngay(*tmp);
     i.ignore();
-    cout << "Nhap thang :";
     i >> *tmp;
     d.setthang(*tmp);
     i.ignore();
-    cout << "Nhap nam :";
     i >> *tmp;
     d.setnam(*tmp);
     i.ignore();
@@ -138,7 +133,7 @@ bool Time::operator>(Time d)
 }
 ostream& operator<<(ostream& o, const Time& d)
 {
-    o << d.gio << ":" << d.phut << " " << d.ngay << "/" << d.thang << "/" << d.nam << endl;
+    o << d.gio << endl << d.phut << endl << d.ngay << endl << d.thang << endl << d.nam << endl;
     return o;
 }
 void Time::xuatngay()

@@ -14,7 +14,7 @@ Time phim::gethankhoichieu() { return this->hankhoichieu; };
 int phim::getthoiluong() { return this->thoiluong; };
 string phim::getngonngu() { return this->ngonngu; };
 string phim::getgioithieuphim() { return this->gioithieuphim; };
-int phim::getage() { return this->age; };
+string phim::getage() { return this->age; };
 int phim::getsosuatchieu() { return this->sosuatchieu; }
 suatchieu* phim::getdanhsachsuatchieu() { return this->danhsachsuatchieu; }
 phim phim::operator=(phim p)
@@ -80,13 +80,28 @@ void phim::sethankhoichieu()
 }
 istream& operator>>(istream& i, phim& p)
 {
-    getline(i, p.id);
     getline(i, p.tenphim);
     i >> p.giave;
     i.ignore();
     getline(i, p.daodien);
     getline(i, p.theloai);
-    i >> p.khoichieu;
+    int tmp;
+    i >> tmp;
+    i.ignore();
+    p.khoichieu.setgio(tmp);
+    i >> tmp;
+    i.ignore();
+    p.khoichieu.setphut(tmp);
+    i >> tmp;
+    i.ignore();
+    p.khoichieu.setngay(tmp);
+    i >> tmp;
+    i.ignore();
+    p.khoichieu.setthang(tmp);
+    i >> tmp;
+    i.ignore();
+    p.khoichieu.setnam(tmp);
+
     p.sethankhoichieu();
     i >> p.thoiluong;
     i.ignore();
@@ -119,11 +134,10 @@ ostream& operator<<(ostream& o, phim p)
     o << p.ngonngu << endl;
     o << p.gioithieuphim << endl;
     o << p.age << endl;
-    // for (int i = 0; i < p.sosuatchieu; i++)
-    // {
-    //     (*(p.danhsachsuatchieu + i)).xuatthoigianchieu();
-    //     o << " ";
-    // }
+     for (int i = 0; i < p.sosuatchieu; i++)
+     {
+         (*(p.danhsachsuatchieu + i)).xuatthoigianchieu();
+     }
     return o;
 }
 phim* phim::getcontrophim() {
