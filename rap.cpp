@@ -1,14 +1,16 @@
 #include "rap.h"
 rap::rap()
-{
+{   
     tenrap = "A";
     diachi = "A";
-
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 3; j++) {
+            danhsachphong[i][j].idphong = (string(1, (char)(i + 48)) + string(1, (char)(j + 48 + 1)));
+        }
+    }
 }
 rap::~rap() {
-
 }
-
 string rap::gettenrap() { return tenrap; }
 string rap::getdiachi() { return diachi; }
 phong rap::getphong(int i, int j) { return danhsachphong[i][j]; }

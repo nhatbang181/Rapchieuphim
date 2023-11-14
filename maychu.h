@@ -6,13 +6,14 @@ private:
     int sove;
     phim* danhsachphim;
     int sophim;
-    int doanhsohangthang;
 public:
     maychu();
     ~maychu();
-    int getdoanhsohangthang();
     int getsove();
     int getsophim();
+    void updatedanhsachve(string);
+    void updatedanhsachphim(string);
+    void xoaphim(phim);
     ve* getdanhsachve();
     phim* getdanhsachphim();
     void themve(ve);

@@ -119,7 +119,7 @@ int main()
 
 
 
-
+    
 
 	fstream DanhSachPhim("DanhSachPhim.txt");
 	admin admin1;
@@ -127,9 +127,13 @@ int main()
 	admin1.themphim("DanhSachPhim.txt");
 	admin1.nhaprap();
 	admin1.quanlychieuphim();
-	admin1.xuatphim();
+	admin1.nhapphongchieu("DanhSachPhong.txt");
 	admin1.nhapsuatchieu("DanhSachSuatChieu.txt");
+	admin1.xuatphong();
+
+
 	admin1.datve();
+
 	// ban dau se cout ra 10 ngay chieu phim 
 	// nhap ngay muon xem phim : nhập chắc ngày thôi 
 	// nhap phim muon xem : Dat rung phuong nam , Devil sec

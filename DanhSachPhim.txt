@@ -1,5 +1,5 @@
 Dat rung phuong dong
-18000
+18
 Tran Thanh
 Hanh dong
 12
@@ -12,7 +12,7 @@ tieng viet
 phim hay
 18
 Dat rung Phuong Tay
-20000
+20
 Bang
 Tinh cam
 10
@@ -25,7 +25,7 @@ Tieng ANh
 Phim Do
 16
 Doraemon
-60000
+60
 Tran Thanh
 Kinh Di
 15
@@ -38,7 +38,7 @@ Tieng Nhat
 Phim ke ve cau be bi thieu nang
 18+
 PenHouse
-40000
+40
 Park Kim To
 Tinh Cam
 0

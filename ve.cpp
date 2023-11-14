@@ -6,14 +6,13 @@ ve::ve() {
     nuoc = "A";
     ghengoi = "A";
 }
-ve::ve(Time ngayxemm, now ngaydatt, string bapp, string nuocc, suatchieu scc, string ghengoii)
+ve::ve(now ngaydatt, string bapp, string nuocc, suatchieu scc, string ghengoii)
 {
     id = "R";
     ngaydat = ngaydatt;
-    ngayxem = scc.getthoigianchieu();
     bap = bapp;
     nuoc = nuocc;
-    giave = (scc.getphimchieu())->getgiave();
+    giave = (scc.getphimchieu())->getgiave() + tinh_tien_bap(bap) + tinh_tien_nuoc(nuoc) ;
     ghengoi = ghengoii;
     sc = scc;
     int* tmp = new int;
@@ -31,13 +30,13 @@ ve::ve(Time ngayxemm, now ngaydatt, string bapp, string nuocc, suatchieu scc, st
         else if (i == 4)
             *tmp = ngaydat.getthang();
         else if (i == 5)
-            *tmp = ngayxem.getphut();
+            *tmp = sc.getthoigianchieu().getphut();
         else if (i == 6)
-            *tmp = ngayxem.getgio();
+            *tmp = sc.getthoigianchieu().getgio();
         else if (i == 7)
-            *tmp = ngayxem.getngay();
+            *tmp = sc.getthoigianchieu().getngay();
         else if (i == 8)
-            *tmp = ngayxem.getthang();
+            *tmp = sc.getthoigianchieu().getthang();
         if (*tmp < 10) { id += (char)((*tmp) + 48); }
         else {
             if (((*tmp + 65) < 97 && (*tmp + 65) > 90) || (*tmp + 65) > 122)
@@ -65,10 +64,67 @@ ve::ve(Time ngayxemm, now ngaydatt, string bapp, string nuocc, suatchieu scc, st
         }
     }
     delete tmp, tmp1, tmpstring;
+    this->nhapve("DanhSachVe.txt");
+}
+int ve::tinh_tien_bap(const string& chuoi) {
+    const int so_sizes = 3;
+    char sizes[so_sizes] = { 'S', 'M', 'L' };
+    int gia_bap[so_sizes] = { 25, 30, 30 };
+    int tong_tien = 0;
+    for (int i = 1; i < chuoi.length(); i += 2) {
+        char size = chuoi[i];
+        int so_luong = chuoi[i - 1] - '0'; 
+        int gia = 0;
+        for (int j = 0; j < so_sizes; ++j) {
+            if (sizes[j] == size) {
+                gia = gia_bap[j];
+                break;
+            }
+        }
+        tong_tien += so_luong * gia;
+    }
+
+    return tong_tien;
+}
+int ve::tinh_tien_nuoc(const string& chuoi) {
+    const int so_sizes = 3;
+    char sizes[so_sizes] = { 'S', 'M', 'L' };
+    int gia_bap[so_sizes] = { 15, 20, 30 };
+    int tong_tien = 0;
+    for (int i = 1; i < chuoi.length(); i += 2) {
+        char size = chuoi[i];
+        int so_luong = chuoi[i - 1] - '0';
+        int gia = 0;
+        for (int j = 0; j < so_sizes; ++j) {
+            if (sizes[j] == size) {
+                gia = gia_bap[j];
+                break;
+            }
+        }
+        tong_tien += so_luong * gia;
+    }
+
+    return tong_tien;
+}
+
+
+void ve::nhapve(string name_file) {
+    ofstream o;
+    o.open(name_file, ios::app);
+    if (!o.is_open()) return;
+    o << id << endl;
+    o << sc.getphimchieu()->gettenphim() << endl;
+    o << giave << endl;
+    o << sc.getthoigianchieu();
+    o << ngaydat << endl;
+    o << bap << endl;
+    o << nuoc << endl;
+    o << ghengoi << endl;
+    o.close();
 }
 string ve::getid() { return this->id; }
 int ve::getgiave() { return this->giave; }
-Time ve::getngayxem() { return this->ngayxem; }
+Time ve::getngayxem() { return this->sc.getthoigianchieu(); }
 now ve::getngaydat() { return this->ngaydat; }
 string ve::getbap() { return this->bap; }
 string ve::getnuoc() { return this->nuoc; }
@@ -76,7 +132,6 @@ suatchieu ve::getsc() { return this->sc; }
 string ve::getghengoi() { return this->ghengoi; }
 void ve::setid(string s) { this->id = s; }
 void ve::setgiave(int s) { this->giave = s; }
-void ve::setngayxem(Time s) { this->ngayxem = s; }
 void ve::setbap(string s) { this->bap = s; }
 void ve::setnuoc(string s) { this->nuoc = s; }
 void ve::setsc(suatchieu sc) { this->sc = sc; }
@@ -84,7 +139,6 @@ void ve::setghengoi(string gn) { this->ghengoi = gn; }
 ve ve::operator=(ve v) {
     this->id = v.id;
     this->giave = v.giave;
-    this->ngayxem = v.ngayxem;
     this->ngaydat = v.ngaydat;
     this->bap = v.bap;
     this->nuoc = v.nuoc;

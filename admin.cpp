@@ -2,6 +2,7 @@
 
 admin::admin()
 {
+    
 }
 admin::~admin()
 {
@@ -51,9 +52,32 @@ string admin::getpassword()
 {
     return password;
 }
-void admin::xacnhandatve(int i, int j, phong& p)
+void admin::xacnhandatve(int i, int j, int r, int k, string name_file)
 {
-    p.ghengoi[i][j] = true;
+    int p = 0;
+    int q = 0;
+    rapquanly.danhsachphong[i][j].ghengoi[r][k] = true;
+    string tmp;
+    ofstream o;
+    o.open(name_file,ios::trunc);
+    if (!o.is_open()) return;
+    while (!o.eof() ) {
+        o << rapquanly.danhsachphong[p][q].idphong << endl;
+        for (int v = 0; v < 7; v++) {
+            for (int m = 0; m < 11; m++) {
+                o << rapquanly.danhsachphong[p][q].ghengoi[v][m];
+            }
+            o << endl;
+        }
+        q++;
+        if (q == 3) {
+            p++;
+            if (p == 10) break;
+            q = 0;
+        }
+    }
+ 
+    o.close();
 }
 bool admin::ktrafull(phong p)
 {
@@ -67,8 +91,74 @@ bool admin::ktrafull(phong p)
     }
     return true;
 }
+void admin::nhapphongchieu(string name_file) {
+    ifstream i;
+    i.open(name_file);
+    if (!i.is_open()) return;
+    string tmp;
+    int k = 0, j = 0;
+    int p = 0, q = 0;
+    while (getline(i, tmp))
+    {
+    
+         if (tmp.length() <= 4) {
+            rapquanly.danhsachphong[k][j].idphong = tmp;
+        }
+        else {
+            for (int t = 0; t < 11; t++) {
+                rapquanly.danhsachphong[k][j].ghengoi[p][q] = tmp[t]  - '0';
+                q++;
+                if (q == 11) {
+                    q = 0; 
+                    p++;
+                    if (p == 7) {
+                        p = 0; q = 0;
+                        j++;
+                        if (j == 3) {
+                            j = 0; k++; if (k == 10) break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    i.close();
+}
+void admin::writephim(phim p, const string name_file) {
+    ifstream i;
+    i.open(name_file);
+    string tmp;
+    int count = 1;
+    while (getline(i, tmp))
+    {
+        count++;
+    }
+    i.close();
+    ofstream o;
+    o.open(name_file, ios::app);
+    if (count != 1) o << endl;
+    o << p.gettenphim() << endl;
+    o << p.getgiave() << endl;
+    o << p.getdaodien() << endl;
+    o << p.gettheloai() << endl;
+    o << p.getkhoichieu().getphut() << endl;
+    o << p.getkhoichieu().getgio() << endl;
+    o << p.getkhoichieu().getngay() << endl;
+    o << p.getkhoichieu().getthang() << endl;
+    o << p.getkhoichieu().getnam() << endl;
+    o << p.getthoiluong() << endl;
+    o << p.getngonngu() << endl;
+    o << p.getgioithieuphim() << endl;
+    o << p.getage() << endl;
+    o.close();
+}
 void admin::nhapphim(const string name_file)
 {
+    phim p;
+    cin >> p;
+    writephim(p, name_file);
+}
+void admin::nhapphimchuachieu(const string name_file) {
     ifstream i;
     i.open(name_file);
     string tmp;
@@ -87,7 +177,7 @@ void admin::nhapphim(const string name_file)
     o << p.getgiave() << endl;
     o << p.getdaodien() << endl;
     o << p.gettheloai() << endl;
-    o << p.getkhoichieu().getphut() << endl ;
+    o << p.getkhoichieu().getphut() << endl;
     o << p.getkhoichieu().getgio() << endl;
     o << p.getkhoichieu().getngay() << endl;
     o << p.getkhoichieu().getthang() << endl;
@@ -97,6 +187,68 @@ void admin::nhapphim(const string name_file)
     o << p.getgioithieuphim() << endl;
     o << p.getage() << endl;
     o.close();
+}
+void admin::chuyenphimchuachieu(const string name_file1, const string name_file2) {
+    phim p;
+    ifstream i;
+    string line;
+    int count = 1;
+    i.open(name_file2, ios::in);
+    if (!i.is_open()) return;
+    while (getline(i, line)) {
+        switch (count % 13) {
+        case 0:
+            setage(line, p);
+            break;
+        case 1:
+            settenphim(line, p);
+            break;
+        case 2:
+            setgiave(ConvertToInt(line), p);
+            break;
+        case 3:
+            setdaodien(line, p);
+            break;
+        case 4:
+            settheloai(line, p);
+            break;
+        case 5:
+            setgiochieu(ConvertToInt(line), p);
+            break;
+        case 6:
+            setphutchieu(ConvertToInt(line), p);
+            break;
+        case 7:
+            setngaychieu(ConvertToInt(line), p);
+            break;
+        case 8:
+            setthangchieu(ConvertToInt(line), p);
+            break;
+        case 9:
+            setnamchieu(ConvertToInt(line), p);
+            break;
+        case 10:
+            setthoiluong(ConvertToInt(line), p);
+            break;
+        case 11:
+            setngonngu(line, p);
+            break;
+        case 12:
+            setgioithieuphim(line, p);
+            break;
+        default:
+            break;
+        }
+        count++;
+        if ((count % 13) == 1) {
+            p.sethankhoichieu();
+            
+            setid(increaseString(rapquanly.maychurap.danhsachphim[rapquanly.maychurap.sophim - 2].getid()), p);
+            themphim(p);
+        }
+    }
+    i.close();
+
 }
 void admin::setid(string s, phim& p)
 {
@@ -236,7 +388,6 @@ void admin::nhaprap()
     // getline(cin, rapquanly.tenrap);
     // cout << "Nhap dia chi rap :";
     // getline(cin, rapquanly.diachi);
-
     rapquanly.tenrap = "CGV DA NANG";
     rapquanly.diachi = "Lien Chieu ";
     for (int o = 0; o < 8; o++)
@@ -279,11 +430,25 @@ void admin::nhaprap()
         }
     }
 }
+void admin::xuatphong() {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 3; j++) {
+           cout <<  rapquanly.danhsachphong[i][j].idphong << endl;
+           for (int k = 0; k < 7; k++) {
+               for (int l = 0; l < 11; l++) {
+                   cout << rapquanly.danhsachphong[i][j].ghengoi[k][l];
+               }
+               cout << endl;
+           }
+
+        }
+    }
+}
 void admin::datve()
 {
+    
     now homnay;
     Time TmpT;
-    //// CHON PHIM
     cout << "Ban muon xem phim gi ?" << endl;
     for (int j = 0; j < 10; j++)
     {
@@ -377,9 +542,14 @@ void admin::datve()
     getline(cin, tmpbap);
     cout << "Nuoc : ";
     getline(cin, tmpnuoc);
-    ve v(TmpT, homnay, tmpbap, tmpnuoc, tmpsc, tmpghestring);
+    ve v( homnay, tmpbap, tmpnuoc, tmpsc, tmpghestring);
     rapquanly.maychurap.themve(v);
-    xacnhandatve(tmpghe1, tmpghe2, (*(tmpsc).phongchieu));
+   
+
+    //cout << (tmpsc.phongchieu->getidphong());
+    //cout << ((int)(tmpsc.phongchieu->getidphong())[2] - 48) << endl;
+    //xacnhandatve(k-rapquanly.ngaychieuphim.getngay(), , tmpghe1, tmpghe2, "DanhSachPhong.txt");
+    cout << endl << "bangcoto";
     (*(tmpsc).phongchieu).hienthighe();
     cout << v;
 }
@@ -647,36 +817,7 @@ phim admin::getphim(string tmp1)
     phim tmp43;
     return tmp43;
 }
-void admin::xoaphim(phim p)
-{
-    if (rapquanly.maychurap.sophim != 0)
-    {
-        phim* tmp = new phim[rapquanly.maychurap.sophim - 1];
-        for (int i = 0; i < rapquanly.maychurap.sophim; i++)
-        {
-            if (*(rapquanly.maychurap.danhsachphim + i) == p)
-            {
-                for (int j = i + 1; j < rapquanly.maychurap.sophim; j++)
-                {
-                    *(tmp + i) = *(rapquanly.maychurap.danhsachphim + j);
-                }
-                break;
-            }
-            else
-            {
-                *(tmp + i) = *(rapquanly.maychurap.danhsachphim + i);
-            }
-        }
-        delete[] rapquanly.maychurap.danhsachphim;
-        rapquanly.maychurap.danhsachphim = new phim[rapquanly.maychurap.sophim - 1];
-        for (int i = 0; i < rapquanly.maychurap.sophim - 1; i++)
-        {
-            *(rapquanly.maychurap.danhsachphim + i) = *(tmp + i);
-        }
-        delete[] tmp;
-        rapquanly.maychurap.sophim -= 1;
-    }
-}
+
 int ConvertToInt(string s) {
     int result = 0;
     int multiply = 1;

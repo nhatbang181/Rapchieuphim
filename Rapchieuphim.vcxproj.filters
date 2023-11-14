@@ -78,5 +78,9 @@
   <ItemGroup>
     <Text Include="DanhSachPhim.txt" />
     <Text Include="DanhSachSuatChieu.txt" />
+    <Text Include="DanhSachVe.txt" />
+    <Text Include="DanhSachPhong.txt" />
+    <Text Include="DoanhThuHangThang.txt" />
+    <Text Include="DanhSachPhimChuaChieu.txt" />
   </ItemGroup>
 </Project>

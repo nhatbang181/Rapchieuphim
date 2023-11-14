@@ -32,6 +32,7 @@ public:
     phim getphimtuid(string);
     void themsuatchieu(suatchieu&, phim&);
     void dangkitaikhoan();
+    void nhapphongchieu(string);
     suatchieu getsuatchieu(int, int, Time);
     string getusername();
     string getpassword();
@@ -39,7 +40,7 @@ public:
     void swap(Time&, Time&);
     friend bool compareStrings(const string& str1, const string& str2);
     friend int ConvertToInt(string);
-    void xacnhandatve(int, int, phong&);
+    void xacnhandatve(int,int,int, int, string);
     bool ktrafull(phong);
     void nhapphim(const string name_file);
     void setphong(int, int, phong);
@@ -55,5 +56,12 @@ public:
     phim getphim(string);
     void phimchieutrongngay(Time);
     void xuatphim();
-    void nhapsuatchieu(const string name_file);
+    void nhapsuatchieu(const string );
+    void updatedanhsachphong(string);
+    void nhapphimchuachieu(const string );
+    void chuyenphimchuachieu(const string, const string);
+    void writephim(phim, const string);
+
+
+    void xuatphong();
 };
